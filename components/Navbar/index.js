@@ -1,4 +1,4 @@
-import { Link, Input } from '@nextui-org/react'
+import { Link, Input, red } from '@nextui-org/react'
 import React, { useState, useEffect } from 'react'
 import useAuth from '../../hooks/useAuth'
 import ThemeSwitch from '../ThemeSwitch'
@@ -9,13 +9,16 @@ import { GiExitDoor } from 'react-icons/gi'
 import { useTranslation } from "react-i18next"
 
 import { 
-  FaEthereum
+  FaEthereum,
+  FaGlobeAmericas,
  } from 'react-icons/fa'
 import { MdGroup } from "react-icons/md"
 
 import { useSession, signOut } from 'next-auth/react'
 import { getUserFromFirestore, updateUserInFirestore } from '../../lib/user'
 import { checkReferral, saveReferralCookie } from '../../lib/store_referral'
+
+import { useTheme } from 'next-themes';
 
 export default function NavbarComponent() {
   const { setVisible, bindings } = useModal()
@@ -31,13 +34,21 @@ export default function NavbarComponent() {
       name: 'Study Groups',
       href: '/study-groups',
     },
+    {
+      name: 'Tasks',
+      href: '/tasks',
+    },
   ]
 
   const [profile, setProfile] = useState(false)
   const { t, i18n } = useTranslation()
   const { user, logout } = useAuth()
 
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const getUser = async () => {
+    
     if (user?.uid)
       return await getUserFromFirestore(user).then((u) => {
         if (!u) return
@@ -55,41 +66,22 @@ export default function NavbarComponent() {
 
   return (
     <>
-      <Navbar variant={'floating'} isBordered={true}>
-        <Navbar.Brand css={{ gap: '$5' }}>
+      <Navbar variant={'floating'} isBordered={false}>
+        <Navbar.Brand css={{ gap: '$14' }}>
           <Link href="/">
-            <Image width={42} height={42} src="/assets/img/w3d-logo-symbol-ac.svg" />
-            <Text weight={'bold'}>WEB3DEV</Text>
+          <Image width={42} height={42} src="/assets/img/w3d-logo-symbol-ac.svg" />
+          <Text weight={'bold'} css={{ fontSize: '40px' }}>WEB<span style={{ color: '#99E24D' }}>3</span>DEV</Text>
           </Link>
           <ThemeSwitch />
-        </Navbar.Brand>
-
-        <Navbar.Content hideIn={'sm'}>
-          <Link href="/courses">
-            <Button
-              auto="true"
-              rounded
-              css={{ background: '$white' }}
-              icon={<FaEthereum color="black" />}
+          <Dropdown>
+          <Dropdown.Trigger css={{ background: 'none' }}>
+          <NUButton
+              auto="true" 
+              css={{ background: 'none' }}
             >
-              <Text weight={'extrabold'} css={{ color: 'black' }}>Builds</Text>
-            </Button>
-          </Link>
-          <Link href="/study-groups">
-            <Button
-              auto="true"
-              rounded
-              css={{ background: '$white' }}
-              icon={<MdGroup color="black" />}
-            >
-              <Text weight={'extrabold'} css={{ color: 'black' }}>Study Groups</Text>
-            </Button>
-          </Link>
-        </Navbar.Content>
-        <Dropdown>
-          <Dropdown.Button size="xs" light rounded flat css={{ paddingBlock: '$10' }}>
-            {i18n.resolvedLanguage || 'en'}
-          </Dropdown.Button>
+              <FaGlobeAmericas size={40} color= {isLight ? 'gray' : 'white'}/>
+            </NUButton>
+      </Dropdown.Trigger>
           <Dropdown.Menu
             css={{
               display: 'flex',
@@ -108,8 +100,41 @@ export default function NavbarComponent() {
               ))}
           </Dropdown.Menu>
         </Dropdown>
+        </Navbar.Brand>
+        
 
-        <Navbar.Content>
+        <Navbar.Content hideIn={'sm'} css={{ gap: '$5', width: '100%', justifyContent: 'right'}}>
+          <Link href="/courses">
+            <NUButton
+              auto="true"
+              css={{ background: 'none'}}
+              //icon={<FaGlobeAmericas color="white" />}
+            >
+              <Text weight={'normal'} css={{ color: isLight ? 'black' : 'white', fontSize: 20  }}>Builds</Text>
+            </NUButton>
+          </Link>
+          <Link href="/study-groups">
+            <Button
+              auto="true" 
+              css={{ background: 'none' }}
+              //icon={<MdGroup color="white" />}
+            >
+              <Text weight={'normal'} css={{ color: isLight ? 'black' : 'white', fontSize: 20  }}>Study Groups</Text>
+            </Button>
+          </Link>
+          <Link href="/tasks">
+            <Button
+              auto="true" 
+              css={{ background: 'none' }}
+              //icon={<MdGroup color="white" />}
+            >
+              <Text weight={'normal'} css={{ color: isLight ? 'black' : 'white', fontSize: 20  }}>Tasks</Text>
+            </Button>
+          </Link>
+        </Navbar.Content>
+        
+
+        <Navbar.Content css={{ gap: '$5'}}>
           {user?.uid && (
             <Navbar.Content hideIn={'md'}>
               <NUButton
@@ -199,8 +224,10 @@ export default function NavbarComponent() {
           ) : (
             <Navbar.Content hideIn={'sm'}>
               <Link href="/auth">
-                <Button color={'secondary'} id="login" bordered ref={ref}>
-                  <Text weight={'bold'}>{t('accessPlatform')}</Text>
+                <Button id="login" ref={ref}
+                css={{ background: 'none' }}
+                >
+                  <Text weight={'normal'} css={{ fontSize: 20 }}>{t('accessPlatform')}</Text>
                 </Button>
               </Link>
             </Navbar.Content>
