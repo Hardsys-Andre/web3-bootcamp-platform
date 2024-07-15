@@ -18,7 +18,7 @@ import { useSession, signOut } from 'next-auth/react'
 import { getUserFromFirestore, updateUserInFirestore } from '../../lib/user'
 import { checkReferral, saveReferralCookie } from '../../lib/store_referral'
 
-import { useTheme } from 'next-themes';
+import { useTheme } from 'next-themes'
 
 export default function NavbarComponent() {
   const { setVisible, bindings } = useModal()
@@ -44,8 +44,13 @@ export default function NavbarComponent() {
   const { t, i18n } = useTranslation()
   const { user, logout } = useAuth()
 
-  const { theme } = useTheme();
-  const isLight = theme === 'light';
+  const { theme } = useTheme()
+  const isLight = theme === 'light'
+
+  const languageMap = {
+    en: 'English',
+    pt: 'Português (BR)',
+  }
 
   const getUser = async () => {
     
@@ -79,7 +84,7 @@ export default function NavbarComponent() {
               auto="true" 
               css={{ background: 'none' }}
             >
-              <FaGlobeAmericas size={40} color= {isLight ? 'gray' : 'white'}/>
+              <FaGlobeAmericas size={35} color= {isLight ? 'gray' : 'white'}/>
             </NUButton>
       </Dropdown.Trigger>
           <Dropdown.Menu
@@ -90,14 +95,14 @@ export default function NavbarComponent() {
             }}
           >
             {i18n.options.whitelist
-              .filter((l) => l !== i18n.resolvedLanguage)
-              .map((l) => (
-                <Dropdown.Item>
-                  <Link href={'?lang=' + l}>
-                    <Text weight={'bold'}>{l}</Text>
-                  </Link>
-                </Dropdown.Item>
-              ))}
+          .filter((l) => l !== i18n.resolvedLanguage)
+          .map((l) => (
+            <Dropdown.Item key={l}>
+              <Link href={`?lang=${l}`}>
+                <Text weight="bold">{languageMap[l]}</Text>
+              </Link>
+            </Dropdown.Item>
+          ))}
           </Dropdown.Menu>
         </Dropdown>
         </Navbar.Brand>
@@ -108,7 +113,6 @@ export default function NavbarComponent() {
             <NUButton
               auto="true"
               css={{ background: 'none'}}
-              //icon={<FaGlobeAmericas color="white" />}
             >
               <Text weight={'normal'} css={{ color: isLight ? 'black' : 'white', fontSize: 20  }}>Builds</Text>
             </NUButton>
@@ -117,7 +121,6 @@ export default function NavbarComponent() {
             <Button
               auto="true" 
               css={{ background: 'none' }}
-              //icon={<MdGroup color="white" />}
             >
               <Text weight={'normal'} css={{ color: isLight ? 'black' : 'white', fontSize: 20  }}>Study Groups</Text>
             </Button>
@@ -126,7 +129,6 @@ export default function NavbarComponent() {
             <Button
               auto="true" 
               css={{ background: 'none' }}
-              //icon={<MdGroup color="white" />}
             >
               <Text weight={'normal'} css={{ color: isLight ? 'black' : 'white', fontSize: 20  }}>Tasks</Text>
             </Button>
