@@ -153,5 +153,10 @@
     "enter_password": "Por favor, insira sua senha",
     "verify_password": "Verifique sua senha",
     "or": "OU"
-  }
+  },
+  "no-issues-found": "Nenhuma Issue encontrado",
+  "all": "Todos",
+  "open": "Aberto",
+  "closed": "Fechado",
+  "filters": "Filtros"
 }

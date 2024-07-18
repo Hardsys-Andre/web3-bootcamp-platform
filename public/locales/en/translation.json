@@ -153,5 +153,10 @@
     "verify_password": "Verify your password",
     "or": "OR"
   },
-  "link_github_account": "Do you want to link GitHub to your already registered account?"
+  "link_github_account": "Do you want to link GitHub to your already registered account?",
+  "no-issues-found": "No issues found",
+  "all": "All",
+  "open": "Open",
+  "closed": "Closed",
+  "filters": "Filters"
 }
