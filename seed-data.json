@@ -45,9 +45,7 @@
           "section": "Section_4"
         },
         {
-          "photoUrls": [
-            "https://avatars.githubusercontent.com/u/77552?v=4"
-          ],
+          "photoUrls": ["https://avatars.githubusercontent.com/u/77552?v=4"],
           "students": 1,
           "section": "Section_1"
         },
@@ -68,10 +66,7 @@
           "projectId": "web3dev-development"
         },
         "_path": {
-          "segments": [
-            "cohorts",
-            "lloRUGwzJAG4Lj2B3bmJ"
-          ]
+          "segments": ["cohorts", "lloRUGwzJAG4Lj2B3bmJ"]
         },
         "_converter": {}
       },
@@ -81,10 +76,7 @@
           "projectId": "web3dev-development"
         },
         "_path": {
-          "segments": [
-            "users",
-            "qpluj9zA4Idmvoxj1XEG8MmPpN72"
-          ]
+          "segments": ["users", "qpluj9zA4Idmvoxj1XEG8MmPpN72"]
         },
         "_converter": {}
       },
@@ -130,10 +122,7 @@
             "projectId": "web3dev-development"
           },
           "_path": {
-            "segments": [
-              "courses",
-              "NFT_Collection"
-            ]
+            "segments": ["courses", "NFT_Collection"]
           },
           "_converter": {}
         },
@@ -167,10 +156,7 @@
         ],
         "discord": null,
         "wallet": "0xc8DfC3924909EccCBA4E59f19AEc5cB419b83417",
-        "cohort_ids": [
-          "LNYQZCn5p9amT9VUJVhs",
-          "y6AUPXpfj1L6jfhAlTzl"
-        ],
+        "cohort_ids": ["LNYQZCn5p9amT9VUJVhs", "y6AUPXpfj1L6jfhAlTzl"],
         "name": "Rômulo",
         "bio": "",
         "cohorts": [
@@ -193,10 +179,7 @@
                 "projectId": "web3dev-development"
               },
               "_path": {
-                "segments": [
-                  "cohorts",
-                  "y6AUPXpfj1L6jfhAlTzl"
-                ]
+                "segments": ["cohorts", "y6AUPXpfj1L6jfhAlTzl"]
               },
               "_converter": {}
             },
@@ -233,9 +216,7 @@
       "leader_discord_id": "548618495383044129",
       "title": "Rust",
       "analytics": {
-        "photoUrls": [
-          "https://avatars.githubusercontent.com/u/77552?v=4"
-        ],
+        "photoUrls": ["https://avatars.githubusercontent.com/u/77552?v=4"],
         "students": 1
       },
       "active": true,
@@ -252,9 +233,7 @@
       "project_type": "Core",
       "createdAt": "2024-06-25T17:29:09Z",
       "project_id": 23,
-      "assignees": [
-        "helenafreitas5"
-      ],
+      "assignees": ["helenafreitas5"],
       "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxwc",
       "state": "OPEN",
       "project_name": "Stellar Study Group [Core]",
@@ -277,9 +256,7 @@
       "project_type": "Core",
       "createdAt": "2024-06-25T17:29:09Z",
       "project_id": 23,
-      "assignees": [
-        "helenafreitas5"
-      ],
+      "assignees": ["helenafreitas5"],
       "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxwc",
       "state": "OPEN",
       "project_name": "Stellar Study Group [Core]",
@@ -302,9 +279,7 @@
       "project_type": "Core",
       "createdAt": "2024-06-25T17:29:09Z",
       "project_id": 23,
-      "assignees": [
-        "helenafreitas5"
-      ],
+      "assignees": ["helenafreitas5"],
       "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxwc",
       "state": "CLOSED",
       "project_name": "Stellar Study Group [Core]",
@@ -327,9 +302,7 @@
       "project_type": "Core",
       "createdAt": "2024-06-25T17:29:09Z",
       "project_id": 23,
-      "assignees": [
-        "helenafreitas5"
-      ],
+      "assignees": ["helenafreitas5"],
       "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxwc",
       "state": "CLOSED",
       "project_name": "Stellar Study Group [Core]",
@@ -352,9 +325,7 @@
       "project_type": "Core",
       "createdAt": "2024-06-25T17:29:09Z",
       "project_id": 23,
-      "assignees": [
-        "helenafreitas5"
-      ],
+      "assignees": ["helenafreitas5"],
       "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxwc",
       "state": "CLOSED",
       "project_name": "Stellar Study Group [Core]",
