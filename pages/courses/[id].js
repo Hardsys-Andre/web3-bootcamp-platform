@@ -33,13 +33,15 @@ function Course({ course, currentDate }) {
   const [lessonsSubmitted, setLessonsSubmitted] = useState()
   const [loading, setLoading] = useState(true)
   const { t, i18n } = useTranslation()
+  const language = i18n.resolvedLanguage
 
   let counter = 0
   useEffect(async () => {
     setCohorts(await getAllCohorts())
   }, [])
   useEffect(async () => {
-    setLessonsSubmitted(await getLessonsSubmissions(user?.uid))
+    let lessonsSubmitted_ = await getLessonsSubmissions(user?.uid, cohort?.id)
+    setLessonsSubmitted(lessonsSubmitted_)
   }, [user])
   useEffect(async () => {
     if (cohorts) {
@@ -87,19 +89,10 @@ function Course({ course, currentDate }) {
     )
   }
 
-  const userSubmissions = (allLessons) => {
-    const userSubmitted = lessonsSubmitted.map((lesson) => {
-      if (
-        lesson.lesson == allLessons.file &&
-        lesson.user == user.uid &&
-        lesson.cohort_id === cohort.id
-      )
-        return true
-      return false
-    })
-    if (userSubmitted.every((item) => item === false)) counter++
-    return userSubmitted.some((item) => item === true)
+  const userSubmissions = (lesson) => {
+    return lessonsSubmitted.some((submittedLesson) => submittedLesson.lesson === lesson.file)
   }
+
   const daysLeftToStart = () => {
     if (typeof timeLeft == 'string') return timeLeft?.split('d')[0]
   }
@@ -408,7 +401,7 @@ function Course({ course, currentDate }) {
                                           </div>
                                           <div className={counter > 1 ? 'pointer-events-none' : ''}>
                                             <Link
-                                              href={`/courses/${course.id}/lessons/${lesson.file}`}
+                                              href={`/courses/${course.id}/${section}/${lesson.file}?lang=${language}`}
                                             >
                                               <a id="access-lesson">
                                                 <p className="m-0 p-0">{lesson.title}</p>
