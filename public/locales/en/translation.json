@@ -128,7 +128,8 @@
     "exercise_not_submitted": "You have not submitted the exercise for this lesson yet",
     "already_on_first_lesson": "You are already on the first lesson.",
     "data_updated_success": "Data updated successfully!",
-    "error_updating_data": "Error updating data"
+    "error_updating_data": "Error updating data",
+    "language_not_available": "Content not available for the selected language. Using the default language."
   },
   "twitter-share": "Networking is everything, how about sharing your progress with your friends on Twitter?",
   "buttons": {
@@ -154,6 +155,7 @@
     "or": "OR"
   },
   "link_github_account": "Do you want to link GitHub to your already registered account?",
+  "peopleBuilding": "people building in this section",
   "no-issues-found": "No issues found",
   "all": "All",
   "open": "Open",

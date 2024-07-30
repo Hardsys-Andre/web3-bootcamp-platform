@@ -21,6 +21,7 @@ import Loading from '../../components/Loading'
 import { dateFormat } from '../../lib/dateFormat'
 import { useTranslation } from 'react-i18next'
 import RenderField from '../../components/RenderField'
+import { toast } from 'react-toastify'
 
 function Course({ course, currentDate }) {
   if (!course.active) return <NotFound />
@@ -33,14 +34,22 @@ function Course({ course, currentDate }) {
   const [lessonsSubmitted, setLessonsSubmitted] = useState()
   const [loading, setLoading] = useState(true)
   const { t, i18n } = useTranslation()
+  const language = i18n.resolvedLanguage
+
+  useEffect(() => {
+    if (course?.metadata && !course.metadata.hasOwnProperty(language)) {
+      toast.error(t('messages.language_not_available'))
+    }
+  }, [language])
 
   let counter = 0
   useEffect(async () => {
     setCohorts(await getAllCohorts())
   }, [])
   useEffect(async () => {
-    setLessonsSubmitted(await getLessonsSubmissions(user?.uid))
-  }, [user])
+    let lessonsSubmitted_ = await getLessonsSubmissions(user?.uid, cohort?.id)
+    setLessonsSubmitted(lessonsSubmitted_)
+  }, [user, cohort])
   useEffect(async () => {
     if (cohorts) {
       setCohort(getCurrentCohort(user, cohorts, course, currentDate))
@@ -86,20 +95,10 @@ function Course({ course, currentDate }) {
       (userCohort) => userCohort.course_id == course.id && userCohort.cohort_id == cohort?.id
     )
   }
-
-  const userSubmissions = (allLessons) => {
-    const userSubmitted = lessonsSubmitted.map((lesson) => {
-      if (
-        lesson.lesson == allLessons.file &&
-        lesson.user == user.uid &&
-        lesson.cohort_id === cohort.id
-      )
-        return true
-      return false
-    })
-    if (userSubmitted.every((item) => item === false)) counter++
-    return userSubmitted.some((item) => item === true)
+  const userSubmissions = (lesson) => {
+    return lessonsSubmitted.some((submittedLesson) => submittedLesson.lesson === lesson.file)
   }
+
   const daysLeftToStart = () => {
     if (typeof timeLeft == 'string') return timeLeft?.split('d')[0]
   }
@@ -141,6 +140,11 @@ function Course({ course, currentDate }) {
       user?.cohorts?.map((cohort) => cohort.course_id).includes(course.id)
     )
   }
+
+  const userIsAdmin = () => {
+    return user?.admin
+  }
+
   const userHasAlreadyParticipatedInACohort = () => {
     const endedCohorts = []
     cohorts?.map((cohort) => {
@@ -172,6 +176,68 @@ function Course({ course, currentDate }) {
     setKickoffStartDate(cohortKickoffDateGMTPattern)
     setKickoffEndDate(cohortKickoffEndDateGTMPattern)
   }, [cohort])
+
+  function renderSections(course, language) {
+    const sections = course?.metadata?.[language]?.sections || course?.sections
+    if (!sections) return null
+
+    return Object.keys(sections)
+      .sort()
+      .map((section) => {
+        const sectionNumber = section.replace('Section_', '')
+        return (
+          <div key={section}>
+            <span id={section} className="mb-4 font-bold">
+              {t('section') + ' ' + sectionNumber}
+            </span>
+            <ul className="mt-4 mb-4 flex list-none flex-col">
+              {sections[section]
+                .sort((a, b) => a.title.localeCompare(b.title))
+                .map((lesson) => (
+                  <li key={lesson.title} className="mb-4 items-center rounded py-2 px-4">
+                    <div className="flex items-center">
+                      <div className="relative mr-2 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full">
+                        <input
+                          disabled
+                          type="radio"
+                          name="radio"
+                          className="checkbox absolute mt-1 h-full w-full appearance-none rounded-full border"
+                        />
+                        <div className="check-icon z-1 mb-1 h-full w-full rounded-full">
+                          {userSubmissions(lesson) ? (
+                            <Image
+                              className="h-full w-full"
+                              width={48}
+                              height={48}
+                              src={'/assets/img/checked-radio-button.svg'}
+                              alt={lesson.title}
+                            />
+                          ) : (
+                            <Image
+                              className="h-full w-full"
+                              width={48}
+                              height={48}
+                              src={'/assets/img/radio-button.svg'}
+                              alt={lesson.title}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <Link
+                        href={`/courses/${course.id}/${section}/${lesson.file}?lang=${language}`}
+                      >
+                        <a id="access-lesson">
+                          <p className="m-0 p-0">{lesson.title}</p>
+                        </a>
+                      </Link>
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )
+      })
+  }
 
   return (
     <>
@@ -346,7 +412,9 @@ function Course({ course, currentDate }) {
                 <br />
               </>
             )}
-            {(userIsRegisteredAndCohortIsOpen() || userHasAlreadyParticipatedInACohort()) && (
+            {(userIsRegisteredAndCohortIsOpen() ||
+              userHasAlreadyParticipatedInACohort() ||
+              userIsAdmin()) && (
               <>
                 <div className="flex flex-col content-end gap-11 lg:flex-row">
                   <div className="flex-1">
@@ -360,70 +428,7 @@ function Course({ course, currentDate }) {
                   <Tabs course={course} lessonsSubmitted={lessonsSubmitted} cohort={cohort} />
 
                   <div className="z-10 my-8 w-full rounded-lg p-7">
-                    {course?.sections &&
-                      Object.keys(course?.sections)
-                        .sort()
-                        .map((section) => {
-                          const sectionNumber = section.replace('Section_', '')
-                          return (
-                            <div key={section}>
-                              <span id={section} className="mb-4 font-bold">
-                                {t('section') + ' ' + sectionNumber}
-                              </span>
-                              <ul className="mt-4 mb-4 flex list-none flex-col	">
-                                {course?.sections[section]
-                                  .map((lesson) => {
-                                    return (
-                                      <li
-                                        key={lesson.title}
-                                        className="mb-4 items-center rounded py-2 px-4"
-                                      >
-                                        <div className="flex items-center ">
-                                          <div className="relative mr-2 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full">
-                                            <input
-                                              disabled
-                                              type="radio"
-                                              name="radio"
-                                              className="checkbox absolute mt-1 h-full w-full appearance-none rounded-full border"
-                                            />
-                                            <div className="check-icon z-1 mb-1 h-full w-full rounded-full">
-                                              {userSubmissions(lesson) ? (
-                                                <Image
-                                                  className="h-full w-full "
-                                                  width={48}
-                                                  height={48}
-                                                  src={'/assets/img/checked-radio-button.svg'}
-                                                  alt={lesson.title}
-                                                />
-                                              ) : (
-                                                <Image
-                                                  className="h-full w-full"
-                                                  width={48}
-                                                  height={48}
-                                                  src={'/assets/img/radio-button.svg'}
-                                                  alt={lesson.title}
-                                                />
-                                              )}
-                                            </div>
-                                          </div>
-                                          <div className={counter > 1 ? 'pointer-events-none' : ''}>
-                                            <Link
-                                              href={`/courses/${course.id}/lessons/${lesson.file}`}
-                                            >
-                                              <a id="access-lesson">
-                                                <p className="m-0 p-0">{lesson.title}</p>
-                                              </a>
-                                            </Link>
-                                          </div>
-                                        </div>
-                                      </li>
-                                    )
-                                  })
-                                  .sort((a, b) => a - b)}
-                              </ul>
-                            </div>
-                          )
-                        })}
+                    {renderSections(course, language)}
                   </div>
                 </div>
                 <div className="mb-3 flex pt-6">
