@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import { Button, Text } from '@nextui-org/react'
 import Modal from '../../../../components/Modal'
 import { withProtected } from '../../../../hooks/route'
-import { getCourse } from '../../../../lib/course'
+import { getCourse, getPage } from '../../../../lib/course'
 import React, { useState, useEffect } from 'react'
 import { getLessonsSubmissions } from '../../../../lib/lessons'
 import Tabs from '../../../../components/Tabs'
@@ -20,7 +20,7 @@ import { MdAdsClick } from 'react-icons/md'
 import { Container } from '@nextui-org/react'
 import { useTranslation } from 'react-i18next'
 
-function Lessons({ course, lesson, currentDate }) {
+function Lessons({ course, section, lesson, content, currentDate }) {
   const [open, setOpen] = useState(false)
   const [lessonSent, setLessonSent] = useState(false)
   const [userSubmission, setUserSubmission] = useState()
@@ -37,8 +37,14 @@ function Lessons({ course, lesson, currentDate }) {
   const [user, setUser] = useState()
   const ref = React.createRef()
   const router = useRouter()
-  const { t } = useTranslation()
-  let testUrl
+  const { t, i18n } = useTranslation()
+  const language = i18n.resolvedLanguage
+
+  useEffect(() => {
+    if (course?.metadata && !course.metadata.hasOwnProperty(language)) {
+      toast.error(t('messages.language_not_available'))
+    }
+  }, [language])
 
   useEffect(async () => {
     if (auth.currentUser) {
@@ -50,7 +56,7 @@ function Lessons({ course, lesson, currentDate }) {
   useEffect(async () => {
     setCohorts(await getAllCohorts())
     getSubmissionData()
-  }, [])
+  }, [lesson, language])
 
   useEffect(async () => {
     if (cohorts) {
@@ -58,56 +64,78 @@ function Lessons({ course, lesson, currentDate }) {
     }
   }, [cohorts, user])
 
-  useEffect(async () => {
-    setLessonsSubmitted(await getLessonsSubmissions(user?.uid))
-  }, [user, open])
+  useEffect(() => {
+    const submission = lessonsSubmitted.find((item) => item?.lesson === lesson)
+    if (submission) {
+      setUserSubmission(submission.content.value)
+      setLessonSent(true)
+    } else {
+      setUserSubmission(null)
+      setLessonSent(false)
+    }
+  }, [lessonsSubmitted, lesson, open])
 
   useEffect(() => {
-    lessonsSubmitted.map((item) => {
-      if (item?.lesson === lesson && item?.user == user?.uid && item?.cohort_id == cohort?.id) {
-        setUserSubmission(item.content.value)
-        validateUserSubmission(item.content.value)
-        setLessonSent(true)
-      }
-    })
-  }, [lessonsSubmitted])
+    async function fetchLessonsSubmitted() {
+      let lessonsSubmitted_ = await getLessonsSubmissions(user?.uid, cohort?.id)
+      setLessonsSubmitted(lessonsSubmitted_)
+    }
+    fetchLessonsSubmitted()
+  }, [user, cohort, open])
 
   useEffect(() => {
-    setSortedLessons(course.lessons.sort((a, b) => (a.section > b.section ? 1 : -1)))
-  }, [sortedLessons])
+    async function fetchLessons() {
+      const lessons = await getCourseLessons(course, language)
+      setSortedLessons(lessons)
+    }
+
+    fetchLessons()
+  }, [course, language])
+
+  async function getCourseLessons(course, language) {
+    if (!course) return []
+
+    const sections = course?.metadata?.[language]?.sections || course?.sections
+    if (!sections) return []
+
+    const sortedSectionKeys = Object.keys(sections).sort()
+
+    let lessons = sortedSectionKeys
+      .map((section) => {
+        const sortedLessons = sections[section].sort((a, b) => a.file.localeCompare(b.file))
+        return sortedLessons.map((lesson) => ({
+          section,
+          lesson: lesson.file,
+        }))
+      })
+      .flat()
+
+    return lessons
+  }
+
   const nextLesson = () => {
-    const currentLessonIndex = sortedLessons.map((item) => item.lesson === lesson).indexOf(true)
+    const currentLessonIndex = sortedLessons.findIndex((item) => item.lesson === lesson)
     const nextLesson = sortedLessons[currentLessonIndex + 1]
-    if (lessonSent && !nextLesson) return toast.success(t('messages.lesson_completed_congrats'))
-    if (lessonSent)
-      return (window.location.href = `/courses/${course.id}/lessons/${nextLesson?.lesson}`)
+
+    if (lessonSent && !nextLesson) {
+      return toast.success(t('messages.lesson_completed_congrats'))
+    }
+    if (lessonSent) {
+      const nextLessonUrl = `/courses/${course.id}/${nextLesson.section}/${nextLesson.lesson}?lang=${language}`
+      return router.push(nextLessonUrl)
+    }
     return toast.error(t('messages.exercise_not_submitted'))
   }
+
   const previousLesson = () => {
-    const currentLessonIndex = sortedLessons.map((item) => item.lesson === lesson).indexOf(true)
+    const currentLessonIndex = sortedLessons.findIndex((item) => item.lesson === lesson)
     const previousLesson = sortedLessons[currentLessonIndex - 1]
-    if (previousLesson)
-      return (window.location.href = `/courses/${course.id}/lessons/${previousLesson?.lesson}`)
-    return toast.error(t('messages.already_on_first_lesson'))
-  }
-  const validateUserSubmission = (submission) => {
-    try {
-      testUrl = new URL(submission)
-    } catch (_) {
-      return submission
+
+    if (previousLesson) {
+      const previousLessonUrl = `/courses/${course.id}/${previousLesson.section}/${previousLesson.lesson}?lang=${language}`
+      return router.push(previousLessonUrl)
     }
-    if (testUrl?.hostname.includes('firebasestorage')) return setUrl(testUrl.href)
-    if (testUrl) return submission
-  }
-  const getSection = () => {
-    return Object.entries(course.sections)
-      .map((section) =>
-        section[1].map((item) => {
-          if (item.file.includes(lesson)) return section[0]
-        })
-      )
-      .flat()
-      .find(Boolean)
+    return toast.error(t('messages.already_on_first_lesson'))
   }
 
   const fixMarkdown = (markdown) => {
@@ -117,20 +145,51 @@ function Lessons({ course, lesson, currentDate }) {
     )
     result = result.replace(
       /\[Youtube]\(https:\/\/www\.youtube\.com\/watch\?v=([^)]*)\)/,
-      '<iframe width="560" height="315" src="https://www.youtube.com/embed/$1" title="Lição" frameBorder="0"   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"  allowFullScreen>'
+      '<iframe width="560" height="315" src="https://www.youtube.com/embed/$1" title="Lição" frameBorder="0"   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"  allowFullScreen /></iframe>'
     )
     return result
   }
   const getSubmissionData = () => {
-    const submissionData = course.sections[getSection()].filter((item) => item.file === lesson)[0]
+    const sections = course?.metadata?.[language]?.sections || course?.sections
+
+    if (!sections || !sections[section]) return
+
+    const submissionData = sections[section].filter((item) => item.file === lesson)[0]
+
+    if (!submissionData) return
+
     setSubmissionType(submissionData.submission_type)
     setSubmissionTitle(submissionData.submission_title)
     setSubmissionText(submissionData.submission_text)
     setTwitterShare(submissionData.twitter)
   }
+
   const closeModal = () => {
     setOpen(false)
     if (twitterShare) setTwitterModal(true)
+  }
+
+  const isValidURL = (string) => {
+    try {
+      new URL(string)
+      return true
+    } catch (_) {
+      return false
+    }
+  }
+
+  const renderSubmissionContent = (submission) => {
+    if (isValidURL(submission)) {
+      return <img className="max-w-md" src={submission} alt="submission" height={250} />
+    } else {
+      return (
+        <ReactMarkdown
+          className="react-markdown pt-4"
+          rehypePlugins={[rehypeRaw, rehypePrism, remarkGfm]}
+          children={submission}
+        />
+      )
+    }
   }
 
   return (
@@ -177,7 +236,7 @@ function Lessons({ course, lesson, currentDate }) {
         </div>
         <div className="mx-auto mb-6 rounded-lg px-6 py-2 shadow-xl">
           {course &&
-            course?.lessons.map((l) => {
+            sortedLessons.map((l) => {
               return (
                 l.lesson.includes(lesson) && (
                   <div key={l?.section + l?.lesson}>
@@ -185,7 +244,7 @@ function Lessons({ course, lesson, currentDate }) {
                     <ReactMarkdown
                       className="react-markdown pt-4"
                       rehypePlugins={[rehypeRaw, rehypePrism, remarkGfm]}
-                      children={fixMarkdown(l?.markdown)}
+                      children={fixMarkdown(content)}
                     />
                     <div className="mt-8 flex justify-center">
                       {lessonSent ? (
@@ -194,16 +253,13 @@ function Lessons({ course, lesson, currentDate }) {
                             {t('lesson.lessonSent')}
                           </Button>
                           <div className="mb-3 min-w-min rounded-lg border-2 border-solid border-gray-600 px-4 py-3 text-sm font-medium">
-                            {url?.length ? (
-                              <img className="max-w-md" src={url} alt="submission" height={250} />
-                            ) : (
-                              validateUserSubmission(userSubmission)
-                            )}
+                            {renderSubmissionContent(userSubmission)}
                           </div>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center gap-5">
                           <Button
+                            css={{ zIndex: '0' }}
                             rounded
                             ref={ref}
                             id="submit-lesson"
@@ -225,6 +281,7 @@ function Lessons({ course, lesson, currentDate }) {
                           onClose={() => closeModal()}
                           lesson={lesson}
                           course={course}
+                          section={section}
                           submissionType={submissionType}
                           submissionText={submissionText}
                           submissionTitle={submissionTitle}
@@ -246,7 +303,12 @@ function Lessons({ course, lesson, currentDate }) {
             })}
         </div>
         <div className="m-auto flex w-60 flex-col items-center justify-center gap-4 md:flex-row">
-          <Button customClass="bg-slate-300" onClick={previousLesson} color="">
+          <Button
+            css={{ zIndex: '0' }}
+            customClass="bg-slate-300"
+            onClick={previousLesson}
+            color=""
+          >
             {t('lesson.previousLesson')}
           </Button>
           <Button
@@ -256,7 +318,7 @@ function Lessons({ course, lesson, currentDate }) {
           >
             {t('lesson.backToCourse')}
           </Button>
-          <Button onClick={nextLesson} color="secondary">
+          <Button css={{ zIndex: '0' }} onClick={nextLesson} color="secondary">
             {t('lesson.nextLesson')}{' '}
           </Button>
         </div>
@@ -265,14 +327,19 @@ function Lessons({ course, lesson, currentDate }) {
   )
 }
 
-export async function getServerSideProps({ params }) {
-  const course = await getCourse(params.id)
+export async function getServerSideProps({ params, query }) {
+  const { lang } = query
+  const course = await getCourse(params.id, lang)
+  const content = await getPage(params.id, params.section, params.lesson, lang)
   const currentDate = new Date().toISOString()
   const lesson = params.lesson
+  const section = params.section
   return {
     props: {
       course,
+      section,
       lesson,
+      content,
       currentDate,
     },
   }
