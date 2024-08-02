@@ -845,15 +845,18 @@
       "project_type": "Core",
       "createdAt": "2024-06-25T17:29:09Z",
       "project_id": 23,
+<<<<<<<<< Temporary merge branch 1
+      "assignees": [
+        "helenafreitas5"
+      ],
+=========
       "assignees": ["helenafreitas5"],
+>>>>>>>>> Temporary merge branch 2
       "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxwc",
       "state": "CLOSED",
       "project_name": "Stellar Study Group [Core]",
       "title": "Start here",
-      "language": ["Typescript"],
-      "skill": ["Skill-1","Skill-2","Skill-3"],
-      "reward": "$70",
-      "body": "Our practical learning platform, located at build.w3d.community, offers courses focused on blockchain and web3 technologies",
+      "body": "",
       "closedAt": null,
       "fields": [
         {
@@ -871,15 +874,18 @@
       "project_type": "Core",
       "createdAt": "2024-06-25T17:29:09Z",
       "project_id": 23,
+<<<<<<<<< Temporary merge branch 1
+      "assignees": [
+        "helenafreitas5"
+      ],
+=========
       "assignees": ["helenafreitas5"],
+>>>>>>>>> Temporary merge branch 2
       "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxwc",
       "state": "CLOSED",
       "project_name": "Stellar Study Group [Core]",
       "title": "Start here",
-      "language": ["Python","Javascript", "Typescript"],
-      "skill": ["Skill-1","Skill-2","Skill-3"],
-      "reward": "$30",
-      "body": "Our practical learning platform, located at build.w3d.community, offers courses focused on blockchain and web3 technologies",
+      "body": "",
       "closedAt": null,
       "fields": [
         {
@@ -897,15 +903,18 @@
       "project_type": "Core",
       "createdAt": "2024-06-25T17:29:09Z",
       "project_id": 23,
+<<<<<<<<< Temporary merge branch 1
+      "assignees": [
+        "helenafreitas5"
+      ],
+=========
       "assignees": ["helenafreitas5"],
+>>>>>>>>> Temporary merge branch 2
       "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxwc",
       "state": "CLOSED",
       "project_name": "Stellar Study Group [Core]",
       "title": "Start here",
-      "language": ["Java", "Python"],
-      "skill": ["Skill-1","Skill-2","Skill-3"],
-      "reward": "$20",
-      "body": "Our practical learning platform, located at build.w3d.community, offers courses focused on blockchain and web3 technologies",
+      "body": "",
       "closedAt": null,
       "fields": [
         {
