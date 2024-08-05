@@ -108,3 +108,17 @@ pre{
 ._1udoG {
   z-index: 10;
 }
+
+.search-bar {
+  border: 1px solid #99e24d;
+  border-radius: 9999px;
+  padding: 10px 20px;
+  outline: none;
+  width: 100%;
+  opacity: 75%;
+}
+
+.search-bar:focus {
+  border-color: #99e24d;
+  box-shadow: 0 0 10px #99e24d;
+}

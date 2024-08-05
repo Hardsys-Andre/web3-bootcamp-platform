@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import "../i18n" 
+import '../i18n'
 import React, { useEffect } from 'react'
 import { mixpanel } from '../lib/utils/mixpanel'
 import Footer from '../components/Footer/index'
@@ -18,6 +18,7 @@ import { NextUIProvider, createTheme } from '@nextui-org/react'
 import NavbarComponent from '../components/Navbar/index'
 import { useTranslation } from 'react-i18next'
 import { SSRProvider } from '@react-aria/ssr'
+import BoardBackground from '../components/Background/Board.js'
 
 export const event = (event_name, props) => {
   mixpanel.track(event_name, props)
@@ -89,11 +90,30 @@ function MyApp({ Component, pageProps }) {
                   <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                   <link rel="icon" href="/assets/img/w3d-logo-symbol-ac.svg" />
                 </Head>
-                <NavbarComponent />
-                <div className="relative z-10"></div>
-                <Component {...pageProps} />
-                <Footer />
-                <ToastContainer />
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    zIndex: 1,
+                  }}
+                >
+                  <BoardBackground />
+                </div>
+                <div
+                  style={{
+                    zIndex: 100,
+                    width: '100%',
+                    position: 'relative',
+                  }}
+                >
+                  <NavbarComponent />
+                  <Component {...pageProps} />
+                  <Footer />
+                  <ToastContainer />
+                </div>
               </SessionProvider>
             </ThirdwebProvider>
           </AuthProvider>
