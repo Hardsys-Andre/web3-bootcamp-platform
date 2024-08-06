@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { FaRegCaretSquareDown, FaRegCaretSquareUp, FaMoneyBillAlt } from 'react-icons/fa'
 import { useTheme } from 'next-themes'
 
-const Filter = ({ filters, subItems }) => {
+const Filter = ({ filters, subItems, selectedFilters, setSelectedFilters }) => {
   const [isOpen, setIsOpen] = useState(
     Object.keys(filters).reduce((acc, filterName) => {
       acc[filterName] = false
@@ -14,12 +14,25 @@ const Filter = ({ filters, subItems }) => {
   const isLight = theme === 'light'
 
   const toggleOpen = (filterName) => {
-    if (subItems[filterName].length > 0) {
-      setIsOpen((prevState) => ({
-        ...prevState,
-        [filterName]: !prevState[filterName],
-      }))
-    }
+    setIsOpen((prevState) => ({
+      ...prevState,
+      [filterName]: !prevState[filterName],
+    }))
+  }
+
+  const handleFilterSelect = (filterName, subItem) => {
+    setSelectedFilters((prevState) => {
+      const newFilters = { ...prevState }
+      if (!newFilters[filterName]) {
+        newFilters[filterName] = []
+      }
+      if (newFilters[filterName].includes(subItem)) {
+        newFilters[filterName] = newFilters[filterName].filter((item) => item !== subItem)
+      } else {
+        newFilters[filterName].push(subItem)
+      }
+      return newFilters
+    })
   }
 
   return (
@@ -29,7 +42,7 @@ const Filter = ({ filters, subItems }) => {
       }`}
     >
       <h3 className="mb-2 text-lg font-bold">Filter</h3>
-      <ul className="flex lg:flex-col flex-wrap mx-2 items-center lg:items-start  justify-center">
+      <ul className="flex lg:flex-col flex-wrap mx-2 items-center lg:items-start justify-center">
         {Object.keys(filters).map((filterName) => (
           <li key={filterName} className="mb-2 lg:text-[14px] text-[12px] ml-1">
             <button
@@ -45,16 +58,20 @@ const Filter = ({ filters, subItems }) => {
               ) : (
                 <FaMoneyBillAlt className="mr-2" />
               )}
-              <span className="capitalize">{filterName.replace(/([A-Z])/g, ' $1')}</span>
+              <span className="capitalize">{filters[filterName]}</span>
             </button>
             {isOpen[filterName] && subItems[filterName].length > 0 && (
               <ul className="mt-1 ml-2 space-y-1">
                 {subItems[filterName].map((subItem, index) => (
-                  <div key={index} className="border-white border-2">
-                    <li className="rounded bg-black-300 bg-opacity-15 px-1 py-1 text-[12px]">
-                      {subItem}
-                    </li>
-                  </div>
+                  <li key={index} className="rounded bg-black-300 bg-opacity-15 px-1 py-1 text-[12px]">
+                    <input
+                      type="checkbox"
+                      checked={selectedFilters[filterName]?.includes(subItem) || false}
+                      onChange={() => handleFilterSelect(filterName, subItem)}
+                      className="mr-2"
+                    />
+                    {subItem}
+                  </li>
                 ))}
               </ul>
             )}

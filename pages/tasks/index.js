@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import SearchBar from '../../components/SearchBar'
 import { MdGroup } from 'react-icons/md'
 import { AiOutlineLike } from 'react-icons/ai'
-import { Button, Image, Text } from '@nextui-org/react'
 import Filter from '../../components/FilterTasks/index'
 import Sortbar from '../../components/SortBar/index'
 import { useTheme } from 'next-themes'
@@ -78,15 +77,22 @@ const TaskPage = ({ issues }) => {
   const [filters, setFilters] = useState({})
   const [searchQuery, setSearchQuery] = useState('')
 
+  const [selectedFilters, setSelectedFilters] = useState({})
+
   const filteredIssues = issues.filter((issue) => {
-    return !filters.status || issue.state === filters.status
+    console.log('selectedFilters:', selectedFilters)
+    return Object.keys(selectedFilters).every((filterName) =>
+      selectedFilters[filterName]?.length === 0 || selectedFilters[filterName]?.some((filterValue) =>
+        issue[filterName]?.includes(filterValue)
+      )
+    )
   })
 
-   const [issueCount, setIssueCount] = useState(filteredIssues.length)
+  const [issueCount, setIssueCount] = useState(filteredIssues.length)
 
-   useEffect(() => {
-     setIssueCount(filteredIssues.length)
-   }, [filteredIssues])
+  useEffect(() => {
+    setIssueCount(filteredIssues.length)
+  }, [filteredIssues])
 
   return (
     <>
@@ -98,8 +104,8 @@ const TaskPage = ({ issues }) => {
           <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
           <div className="flex">
             <div className="flex w-full flex-col items-start lg:flex-row md:mx-4">
-              <Filter filters={filtersTasks} subItems={subItems} />  
-              <div className="flex-1 p-2 ">
+              <Filter filters={filtersTasks} subItems={subItems} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />  
+              <div className="flex-1 p-2">
                 {filteredIssues.length === 0 ? (
                   <p>{t('no-issues-found')}.</p>
                 ) : (
