@@ -2,15 +2,13 @@
   "tasks": {
     "15A8yOGhuCXbOd31E2wT": {
       "project_type": "Codebase",
-      "assignees": [],
-      "project_name": "Community Board",
-      "title": "Fix the study groups on the platform",
-      "body": "## Description:\n\nEnhance the study group management system on the platform so that administrator members can easily edit, add, and remove study groups.\n\n**Tasks:**\n- [ ] Ensure administrators can easily edit existing study groups, including images, schedule, and descriptions.\n- [ ] Implement functionality allowing administrators to add new study groups to the platform.\n- [ ] Provide an option for administrators to remove study groups that have ended within the community.\n- [ ] Remove the option ❌ Connect your ETH wallet\n- [ ] Add a new function: After the member connects to discord, direct them to the server. \n\n![Image](https://github.com/user-attachments/assets/e30cc5d7-78e7-411f-b6ad-c87be75723f8)\n\n- [ ] Test the updated study group management system for usability and functionality.\n- [ ] Update the documentation to reflect the new management capabilities for study groups.\n- [ ] Notify administrators about the new functionalities and provide a guide if necessary.\n\n",
-      "url": "https://github.com/w3b3d3v/web3-bootcamp-platform/issues/243",
-      "createdAt": "2024-09-18T18:58:46Z",
-      "project_id": 24,
-      "github_id": "PVTI_lADOBSkJcc4AiiAKzgSv2yI",
-      "state": "OPEN",
+      "createdAt": "2024-06-25T17:29:09Z",
+      "project_id": 23,
+      "assignees": ["peach_olive"],
+      "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxw0",
+      "project_name": "Stellar Study Group [Core]",
+      "title": "Start here",
+      "body": "Our practical learning platform, located at build.w3d.community, offers courses focused on blockchain and web3 technologies",
       "closedAt": null,
       "fields": [
         {
@@ -88,161 +86,14 @@
     },
     "673C8C6HuDEq7SO4r1nH": {
       "project_type": "Codebase",
-      "assignees": [
-        "viniblack"
-      ],
-      "project_name": "Community Board",
-      "title": "Create Tests for Build Registration When Cohort Ends",
-      "body": "## Description:\n\nDevelop integration tests for the Build registration process when the cohort ends, specifically focusing on the NFT minting process. This test involves validating the integration between pubsub and cloud functions to ensure the NFT is correctly minted.\n\n**Tasks:**\n- [ ] Set up a test environment to simulate the end of a cohort.\n- [ ] Create integration tests to verify that the pubsub triggers the correct cloud functions for minting the NFT.\n- [ ] Validate that the cloud function executes the minting process without errors.\n- [ ] Ensure the NFT minting process includes all required metadata and follows the expected format.\n- [ ] Test the entire integration flow from cohort completion to successful NFT minting.\n- [ ] Document the testing process and include instructions for running the integration tests.\n- [ ] Address any issues or bugs found during the testing process.\n- [ ] Review the integration tests with the team to ensure accuracy and completeness.\n",
-      "url": "https://github.com/w3b3d3v/web3-bootcamp-platform/issues/261",
-      "createdAt": "2024-10-08T13:38:43Z",
-      "project_id": 24,
-      "github_id": "PVTI_lADOBSkJcc4AiiAKzgTsfEw",
-      "state": "OPEN",
-      "closedAt": null,
-      "fields": [
-        {
-          "field": "Skill",
-          "value": "testing"
-        },
-        {
-          "field": "Importance",
-          "value": "high"
-        },
-        {
-          "field": "Context Depth",
-          "value": "Professional"
-        },
-        {
-          "field": "Business Unity",
-          "value": "LEARNING-PLATFORM"
-        },
-        {
-          "field": "Start date",
-          "value": "2024-10-28"
-        },
-        {
-          "field": "End date",
-          "value": "2024-11-01"
-        }
-      ],
-      "updatedAt": "2024-10-08T13:53:57Z",
-      "status": "Todo"
-    },
-    "8hloqrFtr3xT2LcwMryf": {
-      "project_type": "Codebase",
-      "assignees": [
-        "nomadbitcoin"
-      ],
-      "project_name": "Community Board",
-      "title": "FIX: Cloud function is storing duplicated Issues with different ids",
-      "body": "- [x] Fetch Only WEB3TASK V2 Board Issues/Tasks\n- [x] Update task metadata on db.\n- [ ] Update task metadata on seed-data and ensure nothing is broken.",
-      "url": "https://github.com/w3b3d3v/web3-bootcamp-platform/issues/183",
-      "createdAt": "2024-07-18T22:33:34Z",
-      "project_id": 24,
-      "github_id": "PVTI_lADOBSkJcc4AiiAKzgRCup8",
-      "state": "CLOSED",
-      "closedAt": "2024-08-15T22:47:28Z",
-      "fields": [
-        {
-          "field": "Importance",
-          "value": "high"
-        },
-        {
-          "field": "Skill",
-          "value": "cloud-functions"
-        },
-        {
-          "field": "Context Depth",
-          "value": "Intermediate"
-        },
-        {
-          "field": "Business Unity",
-          "value": "WEB3TASK"
-        }
-      ],
-      "updatedAt": "2024-08-15T22:47:28Z",
-      "status": "Done"
-    },
-    "8sdk3epSK2ZmNE6MHB63": {
-      "project_type": "Codebase",
-      "assignees": [],
-      "project_name": "Community Board",
-      "title": "FIX: Application crashes when mouse hovers over fields in task card",
-      "body": "Task metadata should work dynamically but it is currently expecting some fields to be present.",
-      "url": "https://github.com/w3b3d3v/web3-bootcamp-platform/issues/214",
-      "createdAt": "2024-08-06T23:29:16Z",
-      "project_id": 24,
-      "github_id": "PVTI_lADOBSkJcc4AiiAKzgRlfIw",
-      "state": "CLOSED",
-      "closedAt": "2024-08-15T14:33:48Z",
-      "fields": [
-        {
-          "field": "Business Unity",
-          "value": "WEB3TASK"
-        },
-        {
-          "field": "Importance",
-          "value": "Critical"
-        },
-        {
-          "field": "Context Depth",
-          "value": "Novice"
-        },
-        {
-          "field": "Reward",
-          "value": "XP"
-        }
-      ],
-      "updatedAt": "2024-08-15T14:33:48Z",
-      "status": "Done"
-    },
-    "EBvdsVpbnsLKvIrh0109": {
-      "project_type": "Codebase",
-      "assignees": [
-        "lucasarchangelo"
-      ],
-      "project_name": "Community Board",
-      "title": "Profile Dynamic NFT",
-      "body": "- [ ] Get metadata from api\n- [ ] Access Control Fields based on Fellowship Levels.",
-      "url": "https://github.com/w3b3d3v/web3-bootcamp-platform/issues/208",
-      "createdAt": "2024-08-01T02:25:22Z",
-      "project_id": 24,
-      "github_id": "PVTI_lADOBSkJcc4AiiAKzgRZdr4",
-      "state": "OPEN",
-      "closedAt": null,
-      "fields": [
-        {
-          "field": "Importance",
-          "value": "Medium"
-        },
-        {
-          "field": "Context Depth",
-          "value": "Intermediate"
-        },
-        {
-          "field": "Skill",
-          "value": "smart-contracts"
-        },
-        {
-          "field": "Business Unity",
-          "value": "PROFILE"
-        }
-      ],
-      "updatedAt": "2024-08-01T02:26:36Z",
-      "status": "Review"
-    },
-    "GbsnCuh4PlZ1um5JsZPF": {
-      "project_type": "Codebase",
-      "assignees": [],
-      "project_name": "Community Board",
-      "title": "Refactor Code to Use Utility Function for Course Metadata Retrieval",
-      "body": "#### Description:\nWith the recent update to source course metadata from language-specific metadata fields, there are multiple instances in our codebase where this retrieval logic is repeated. This redundancy can lead to maintenance challenges and potential bugs. We need to refactor the code to use a dynamic utility function that centralizes this logic and retrieves all available fields.\n\n#### Tasks:\n1. **Create a Dynamic Utility Function**:\n   - Develop a utility function that dynamically retrieves all metadata fields from `course.metadata` based on the specified language.\n   - The function should fall back to the root object fields if the metadata fields are not available.\n\n   ```javascript\n   const getCourseMetadata = (course, language) => {\n     const metadata = course?.metadata?.[language] || {};\n     const rootFields = course || {};\n     \n     // Combine metadata and root fields, giving priority to metadata\n     return Object.keys(rootFields).reduce((fields, key) => {\n       fields[key] = metadata[key] || rootFields[key];\n       return fields;\n     }, {});\n   };\n   ```\n\n2. **Refactor Existing Code**:\n   - Identify all instances in the codebase where metadata fields are being fetched from `course.metadata`.\n   - Replace these instances with calls to the new utility function.\n\n   Example refactor:\n   ```javascript\n   const courseMetadata = getCourseMetadata(course, language);\n   ```\n\n3. **Update Components and Functions**:\n   - Ensure that all components and functions that rely on these fields use the utility function to fetch the metadata.\n\n4. **Test the Refactor**:\n   - Test thoroughly to ensure that the utility function works correctly across different parts of the application.\n   - Validate that features depending on these metadata fields are functioning correctly.",
-      "url": "https://github.com/w3b3d3v/web3-bootcamp-platform/issues/211",
-      "createdAt": "2024-08-05T16:30:14Z",
-      "project_id": 24,
-      "github_id": "PVTI_lADOBSkJcc4AiiAKzgRic1I",
-      "state": "OPEN",
+      "createdAt": "2024-06-25T17:29:09Z",
+      "project_id": 23,
+      "assignees": ["peach_olive"],
+      "github_id": "PVTI_lADOBSkJcc4AiejKzgQYxw1",
+      "status": "inProgress",
+      "project_name": "Stellar Study Group [Core]",
+      "title": "Start here",
+      "body": "Our practical learning platform, located at build.w3d.community, offers courses focused on blockchain and web3 technologies",
       "closedAt": null,
       "fields": [
         {
@@ -262,8 +113,7 @@
           "value": "LEARNING-PLATFORM"
         }
       ],
-      "updatedAt": "2024-08-05T16:30:14Z",
-      "status": "Todo"
+      "updatedAt": "2024-08-05T16:30:14Z"
     },
     "Hgp8YAOZzOSQsPUWGUNl": {
       "project_type": "Codebase",
@@ -793,7 +643,7 @@
         },
         {
           "field": "Context Depth",
-          "value": "Intermediate"
+          "value": "Beginner"
         },
         {
           "field": "Importance",
