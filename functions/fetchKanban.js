@@ -7,9 +7,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN
 
 const projects = [{ id: 24, name: 'Community Board', type: 'Codebase' }]
-const projects = [{ id: 24, name: 'Community Board', type: 'Codebase' }]
 
-async function fetchKanbanProjectsGraphQL(organization, projectNumber, token, mode) {
 async function fetchKanbanProjectsGraphQL(organization, projectNumber, token, mode) {
   const query = `
       query {
@@ -161,7 +159,6 @@ async function fetchAllProjectsData(organization, projects, token, mode) {
   for (const project of projects) {
     try {
       const nodes = await fetchKanbanProjectsGraphQL(organization, project.id, token, mode)
-      const nodes = await fetchKanbanProjectsGraphQL(organization, project.id, token, mode)
       const transformedNodes = nodes.map((issue) =>
         transformIssueData(issue, project.name, project.id, project.type)
       )
@@ -220,7 +217,6 @@ exports.fetchAndStoreIssues = functions.https.onRequest(async (req, res) => {
 
   try {
     const allIssues = await fetchAllProjectsData(organization, projects, GITHUB_TOKEN, mode)
-    const allIssues = await fetchAllProjectsData(organization, projects, GITHUB_TOKEN, mode)
     if (!allIssues) return res.status(500).send('Error fetching issues')
     const results = await storeIssuesInFirestore(allIssues, mode)
     res.status(200).json({
@@ -232,4 +228,4 @@ exports.fetchAndStoreIssues = functions.https.onRequest(async (req, res) => {
     console.error('Error:', error)
     res.status(500).send('An error occurred while fetching and storing issues.')
   }
-})
+})}

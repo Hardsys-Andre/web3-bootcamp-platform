@@ -14,21 +14,8 @@ import {
   Avatar,
   Image,
 } from '@nextui-org/react'
-import {
-  Navbar,
-  Text,
-  Dropdown,
-  Button,
-  useModal,
-  Modal,
-  Grid,
-  Avatar,
-  Image,
-} from '@nextui-org/react'
+
 import { GiExitDoor } from 'react-icons/gi'
-import { useTranslation } from 'react-i18next'
-import { FaEthereum } from 'react-icons/fa'
-import { MdGroup } from 'react-icons/md'
 import { useTranslation } from 'react-i18next'
 import { FaEthereum } from 'react-icons/fa'
 import { MdGroup } from 'react-icons/md'
@@ -50,10 +37,6 @@ export default function NavbarComponent() {
     {
       name: 'Study Groups',
       href: '/study-groups',
-    },
-    {
-      name: 'Tasks',
-      href: '/tasks',
     },
     {
       name: 'Tasks',
@@ -99,15 +82,10 @@ export default function NavbarComponent() {
             <Button
               auto="true"
               bordered="true"
-              bordered="true"
               rounded
-              css={{ background: '$white', borderColor: 'black', borderWidth: '2px' }}
               css={{ background: '$white', borderColor: 'black', borderWidth: '2px' }}
               icon={<FaEthereum color="black" />}
             >
-              <Text weight={'extrabold'} css={{ color: 'black' }}>
-                Builds
-              </Text>
               <Text weight={'extrabold'} css={{ color: 'black' }}>
                 Builds
               </Text>
@@ -130,28 +108,10 @@ export default function NavbarComponent() {
             <Button
               auto="true"
               bordered="true"
-              bordered="true"
               rounded
               css={{ background: '$white', borderColor: 'black', borderWidth: '2px' }}
               icon={<MdGroup color="black" />}
             >
-              <Text weight={'extrabold'} css={{ color: 'black' }}>
-                {t('buttons.study_groups')}
-              </Text>
-            </Button>
-          </Link>
-          <Link href="/tasks">
-            <Button
-              auto="true"
-              bordered="true"
-              rounded
-              css={{ background: '$white', borderColor: 'black', borderWidth: '2px' }}
-              css={{ background: '$white', borderColor: 'black', borderWidth: '2px' }}
-              icon={<MdGroup color="black" />}
-            >
-              <Text weight={'extrabold'} css={{ color: 'black' }}>
-                Tasks
-              </Text>
               <Text weight={'extrabold'} css={{ color: 'black' }}>
                 Tasks
               </Text>
