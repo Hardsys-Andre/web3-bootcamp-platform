@@ -31,6 +31,7 @@ export default function Footer() {
         <Text transform="uppercase" weight={'bold'}>
           {' '}
           WEB<span style={{ color: '#99e24d' }}>3</span>DEV{' '}
+          WEB<span style={{ color: '#99e24d' }}>3</span>DEV{' '}
         </Text>
       </div>
       <hr className={`w-full ${isLight ? 'border-gray-300' : 'border-gray-700'} border-t-2`} />

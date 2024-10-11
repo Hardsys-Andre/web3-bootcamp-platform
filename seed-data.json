@@ -791,6 +791,7 @@
   "tasks": {
     "0EvX0FUJSsK8kl4fb8YZ": {
       "project_type": "Codebase",
+      "project_type": "Codebase",
       "createdAt": "2024-06-25T17:29:09Z",
       "project_id": 23,
       "assignees": ["peach_olive"],
@@ -798,6 +799,7 @@
       "status": "inProgress",
       "project_name": "Stellar Study Group [Core]",
       "title": "Start here",
+      "body": "Our practical learning platform, located at build.w3d.community, offers courses focused on blockchain and web3 technologies",
       "body": "Our practical learning platform, located at build.w3d.community, offers courses focused on blockchain and web3 technologies",
       "closedAt": null,
       "fields": [
@@ -814,6 +816,16 @@
           "value": "Beginner"
         },
         {
+          "field": "Importance",
+          "value": "high"
+        },
+        {
+          "field": "Reward",
+          "value": "USD"
+        },
+        {
+          "field": "Amount",
+          "value": 10
           "field": "Importance",
           "value": "high"
         },
