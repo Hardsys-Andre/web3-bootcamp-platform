@@ -118,22 +118,22 @@ const TaskPage = ({ initialIssues }) => {
                   {userProvider === 'github.com' ? (
                     <button
                       onClick={toggleShowAssigned}
-                      className={`rounded-[8px] bg-opacity-30 py-2 px-1 text-xs lg:px-8 lg:text-sm ${
+                      className={`rounded-[8px]  py-2 px-1 text-xs lg:px-8 lg:text-sm ${
                         isLightTheme
-                          ? 'bg-[#99e24d] bg-opacity-70 text-black-400 hover:bg-[#649e26]'
-                          : 'bg-[#99e24d] text-white-400 hover:bg-[#649e26]'
+                          ? 'bg-[#99e24d] text-black-400 hover:bg-[#649e26] hover:bg-opacity-90 font-semibold'
+                          : 'bg-[#99e24d] text-white-400 hover:bg-[#649e26] bg-opacity-30'
                       }`}
                     >
                       {showAssigned ? t('issue.viewAllTasks') : t('issue.myTasks')}
                     </button>
                   ) : (
-                    <div className="cursor-not-allowed opacity-50">
+                    <div className="cursor-not-allowed">
                       <button
                         onClick={showToastConectGit}
-                        className={`rounded-[8px] bg-opacity-30 py-2 px-1 text-xs lg:px-8 lg:text-sm ${
+                        className={`rounded-[8px] py-2 px-1 text-xs lg:px-8 lg:text-sm ${
                           isLightTheme
-                            ? 'bg-[#99e24d] text-black-400'
-                            : 'bg-[#99e24d] text-white-400'
+                            ? 'bg-[#99e24d] text-black-400 font-semibold'
+                            : 'bg-[#99e24d] text-white-400 bg-opacity-30'
                         }`}
                       >
                         {t('issue.viewMyTasks')}
@@ -165,7 +165,7 @@ const TaskPage = ({ initialIssues }) => {
                         t={t}
                       />
                       <label
-                        className={`flex h-10 w-[80px] items-center justify-center text-[12px] md:w-[100px] md:text-[16px] ${
+                        className={`flex h-10 w-[80px] font-semibold items-center justify-center text-[12px] md:w-[100px] md:text-[16px] ${
                           isLightTheme ? 'text-black-400' : 'text-[#99e24d]'
                         }`}
                       >

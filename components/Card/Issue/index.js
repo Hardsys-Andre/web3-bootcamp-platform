@@ -35,12 +35,12 @@ const IssueCard = ({ issue, userInfo, isAssignedView }) => {
     setIsCollapsed(!isCollapsed)
   }
 
-  const buttonClasses = `search-bar text-white py-2 px-4 text-left ${
-    isLight ? 'bg-gray-200 bg-opacity-75' : 'bg-black-200'
+  const buttonClasses = `search-bar text-white font-semibold py-2 px-4 text-left ${
+    isLight ? 'bg-gray-200 ' : 'bg-black-200'
   }`
 
   const applyButtonClasses = `${buttonClasses} ${
-    isLight ? 'bg-[#99e24d] bg-opacity-75' : 'bg-[#649e26]'
+    isLight ? 'bg-[#99e24d] bg-opacity-100' : 'bg-[#649e26]'
   } ${hasPermission ? 'hover:bg-[#649e26]' : 'cursor-not-allowed opacity-50'}`
 
   return (
@@ -54,7 +54,7 @@ const IssueCard = ({ issue, userInfo, isAssignedView }) => {
       <div
         data-testid="cardIssue"
         className={`flex flex-col justify-center gap-2 rounded-lg p-4 shadow-lg
-          ${isLight ? 'bg-gray-200 bg-opacity-75' : 'bg-black-200 bg-opacity-75'}
+          ${isLight ? 'bg-[#99e24d] bg-opacity-40' : 'bg-black-200 bg-opacity-75'}
         `}
       >
         <div className="flex w-full flex-col gap-3">
@@ -68,7 +68,7 @@ const IssueCard = ({ issue, userInfo, isAssignedView }) => {
             </span>
           </div>
           <div
-            className={`flex flex-col gap-3 text-gray-400 md:flex-row
+            className={`flex flex-col gap-3 ${isLight ? 'text-black' : 'text-gray-400'} md:flex-row
               ${hasPermission ? '' : 'opacity-50'}
             `}
           >
